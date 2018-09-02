@@ -6,12 +6,13 @@
     "pretest": "npm run clean",
     "test": "cross-env AZURITE_LOCATION=azurite-testdrive mocha --timeout 10000",
     "start": "node bin/azurite -l azurite-testdrive",
+    "watch": "npm-watch",
     "blob": "node bin/blob -l azurite-testdrive",
     "queue": "node bin/queue",
-    "table": "node bin/table",
+    "table": "node --inspect=0.0.0.0:6229 bin/table",
     "clean": "rimraf azurite-testdrive *.nupkg blob.exe queue.exe table.exe",
     "nuget": "cross-var \"npm run clean && pkg -t node6-win --output blob bin/blob && pkg -t node6-win --output queue bin/queue && pkg -t node6-win --output table bin/table && nuget pack -Version $npm_package_version && nuget push *.nupkg  -Source https://www.nuget.org/api/v2/package\"",
-    "docker": "cross-var \"docker build -t arafato/azurite:$npm_package_version . && docker build -t arafato/azurite:latest . && docker push arafato/azurite:$npm_package_version && docker push arafato/azurite:latest\""
+    "docker": "cross-var \"docker build -t webantic/azurite:$npm_package_version . && docker build -t webantic/azurite:latest . && docker push webantic/azurite:$npm_package_version && docker push webantic/azurite:latest\""
   },
   "engines": {
     "node": ">=6.0"
@@ -26,7 +27,7 @@
   "preferGlobal": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arafato/azurite.git"
+    "url": "git+https://github.com/webantic/azurite.git"
   },
   "keywords": [
     "azure",
@@ -41,9 +42,9 @@
   "author": "Oliver Arafat",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/arafato/azurite/issues"
+    "url": "https://github.com/webantic/azurite/issues"
   },
-  "homepage": "https://github.com/arafato/azurite#readme",
+  "homepage": "https://github.com/webantic/azurite#readme",
   "dependencies": {
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
@@ -66,8 +67,16 @@
     "cross-env": "^3.1.3",
     "cross-var": "^1.1.0",
     "mocha": "5.2.0",
+    "npm-watch": "^0.3.0",
     "pkg": "^4.3.1",
     "request-promise": "^4.1.1",
     "rimraf": "2.6.2"
+  },
+  "watch": {
+    "table": {
+      "patterns": [
+        "lib/**/*"
+      ]
+    }
   }
 }
